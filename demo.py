@@ -7,6 +7,8 @@ from torchvision import datasets
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
+from PIL import Image  
+import PIL
 #######################################################################
 # Evaluate
 parser = argparse.ArgumentParser(description='Demo')
@@ -82,6 +84,16 @@ index = sort_img(query_feature[i],query_label[i],query_cam[i],gallery_feature,ga
 
 query_path, _ = image_datasets['query'].imgs[i]
 query_label = query_label[i]
+split_res = query_path.split("/")
+query_id = split_res[4]
+query_subfolder = r'/content/Person_reID_baseline_pytorch/matching_result/' + query_id
+if not os.path.exists(query_subfolder):
+    os.makedirs(query_subfolder)
+
+# All'interno della cartella creata salvo anche l'immagine di query
+im = Image.open(query_path)
+im = im.save(query_subfolder + "/QueryImage.jpg") 
+
 print(query_path)
 print('Top 10 images are as follow:')
 try: # Visualize Ranking Result 
@@ -96,6 +108,9 @@ try: # Visualize Ranking Result
         img_path, _ = image_datasets['gallery'].imgs[index[i]]
         label = gallery_label[index[i]]
         imshow(img_path)
+        im1 = Image.open(img_path)  
+        name_image = os.path.basename(img_path)
+        im1 = im1.save(query_subfolder + '/' + name_image) 
         if label == query_label:
             ax.set_title('%d'%(i+1), color='green')
         else:
@@ -107,4 +122,4 @@ except RuntimeError:
         print(img_path[0])
     print('If you want to see the visualization of the ranking result, graphical user interface is needed.')
 
-fig.savefig("show.png")
+fig.savefig(query_subfolder + "/CompleteResult.png")

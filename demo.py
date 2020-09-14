@@ -110,11 +110,10 @@ try: # Visualize Ranking Result
         imshow(img_path)
         im1 = Image.open(img_path)  
         name_image = os.path.basename(img_path)
-        im1 = im1.save(query_subfolder + '/' + name_image) 
-        if label == query_label:
-            ax.set_title('%d'%(i+1), color='green')
-        else:
-            ax.set_title('%d'%(i+1), color='red')
+        im1 = im1.save(query_subfolder + '/' + name_image)
+        split_img = img_path.split("_")
+        camera_id = split_img[1]
+        ax.set_title('%s'%(camera_id), color='blue')
         print(img_path)
 except RuntimeError:
     for i in range(10):

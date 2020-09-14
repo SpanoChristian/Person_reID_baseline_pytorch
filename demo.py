@@ -102,7 +102,7 @@ try: # Visualize Ranking Result
     ax = plt.subplot(1,11,1)
     ax.axis('off')
     imshow(query_path,'query')
-    for i in range(7):
+    for i in range(5):
         ax = plt.subplot(1,11,i+2)
         ax.axis('off')
         img_path, _ = image_datasets['gallery'].imgs[index[i]]
